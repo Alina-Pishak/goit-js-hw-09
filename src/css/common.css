@@ -16,3 +16,26 @@ img {
   display: block;
   max-width: 100%;
 }
+
+button {
+    border-radius: 8px;
+    border-style: none;
+    color: #F082AC;
+    cursor: pointer;
+    height: 40px;
+    padding: 10px 16px;
+  }
+
+
+a {
+color: #212121;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #F082AC;
+}
+
+ul {
+  list-style: none;
+}
