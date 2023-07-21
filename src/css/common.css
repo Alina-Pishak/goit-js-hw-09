@@ -18,17 +18,17 @@ img {
 }
 
 button {
-    border-radius: 8px;
-    border-style: none;
-    color: #F082AC;
-    cursor: pointer;
-    height: 40px;
-    padding: 10px 16px;
-  }
+  border-radius: 8px;
+  border-style: none;
+  color: #F082AC;
+  cursor: pointer;
+  height: 40px;
+  padding: 10px 16px;
+}
 
 
 a {
-color: #212121;
+  color: #212121;
   text-decoration: none;
 }
 
@@ -39,3 +39,19 @@ a:hover {
 ul {
   list-style: none;
 }
+
+.timer {
+  display: flex;
+  gap: 10px;
+}
+
+/* form {
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+  align-items: center;
+}
+
+input {
+  color: #F082AC;
+} */

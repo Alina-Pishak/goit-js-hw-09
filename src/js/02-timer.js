@@ -1,42 +1,64 @@
 import flatpickr from "flatpickr";
 import "flatpickr/dist/flatpickr.min.css";
 
-import Notiflix from 'notiflix';
-// import "notiflix/dist/notiflix.min.css";
-// const input = document.querySelector('#')
-const btnStart = document.querySelector('button[data-start]');
-// const values = document.querySelectorAll('.value');
-const days = document.querySelector('span[data-days]');
-const hours = document.querySelector('span[data-hours]');
-const minutes = document.querySelector('span[data-minutes]');
-const seconds = document.querySelector('span[data-seconds]');
-const currentDate = new Date()
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
+const btnStart = document.querySelector('button[data-start]');
+const values = document.querySelectorAll('.value');
+const days = document.querySelector('[data-days]');
+const hours = document.querySelector('[data-hours]');
+const minutes = document.querySelector('[data-minutes]');
+const seconds = document.querySelector('[data-seconds]');
+const currentDate = new Date();
+btnStart.disabled = true;
 
 const options = {
   enableTime: true,
   time_24hr: true,
   defaultDate: currentDate,
   minuteIncrement: 1,
-    onClose(selectedDates) {
-      if (selectedDates[0] < currentDate) {
-          btnStart.disabled = true;
-          Notiflix.Notify.failure('Please choose a date in the future');
-          return
-      }
-      btnStart.disabled = false;
-        const date = Number(selectedDates[0]) - Number(currentDate);
-        console.log(currentDate);
-        console.log(convertMs(date));
+  onClose(selectedDates) {
+    handlerSelectedDate(selectedDates[0]);
   },
 };
-
 flatpickr("#datetime-picker", options);
 
-btnStart.addEventListener('click', countdown);
+function handlerSelectedDate(selectedDates) {
+ if (selectedDates < currentDate) {
+   Notify.failure('Please choose a date in the future');
+   return;
+  }
+  btnStart.disabled = false;
 
-function countdown(evt) {
-    console.log('hello')
+  let remainder = Number(selectedDates) - Number(currentDate);
+
+  btnStart.addEventListener('click', startCount);
+
+  function startCount() {
+    const idIntrvl = setInterval(() => {
+      const date = convertMs(remainder);
+      days.textContent = date.days;
+      hours.textContent = date.hours;
+      minutes.textContent = date.minutes;
+      seconds.textContent = date.seconds;
+      values.forEach(value => {
+        value.textContent = addLeadingZero(value.textContent);
+      });
+      remainder -= 1000;
+      if ([...values].every((value) => value.textContent === '00')) {
+        Notify.success('The timer has expired');
+        clearInterval(idIntrvl);
+      };
+    }, 1000);
+  }
+}
+
+function addLeadingZero(value) {
+  if (value.length > 2) {
+   return 
+  } 
+  return value.toString().padStart(2, '0');
+  
 }
 
 function convertMs(ms) {
@@ -58,21 +80,4 @@ function convertMs(ms) {
   return { days, hours, minutes, seconds };
 }
 
-console.log(convertMs(2000)); // {days: 0, hours: 0, minutes: 0, seconds: 2}
-console.log(convertMs(140000)); // {days: 0, hours: 0, minutes: 2, seconds: 20}
-console.log(convertMs(24140000)); // {days: 0, hours: 6 minutes: 42, seconds: 20}
 
-// const input = document.querySelector('#datetime-picker');
-
-// input.addEventListener('input', inputDate);
-
-// function inputDate(evt) {
-//     console.log(evt.target.value);
-//     console.log(Date.now)
-//     if (evt.target.value < Date.now) {
-//         btnStart.disabled = true;
-//     } else {
-
-//         btnStart.disabled = false;
-//     }
-// }
