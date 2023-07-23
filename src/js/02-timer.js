@@ -9,7 +9,6 @@ const hour = document.querySelector('[data-hours]');
 const minute = document.querySelector('[data-minutes]');
 const second = document.querySelector('[data-seconds]');
 const inputData = document.querySelector('#datetime-picker');
-// let currentDate = new Date();
 btnStart.disabled = true;
 let timerId = null;
 
@@ -31,25 +30,24 @@ flatpickr(inputData, options);
 
 btnStart.addEventListener('click', startCount);
 
-  function startCount() {
-    inputData.disabled = true;
-    btnStart.disabled = true;
-    timerId = setInterval(() => {
-      const selectedData = new Date(inputData.value);
-      const remainder = selectedData - Date.now();
-      const { days, hours, minutes, seconds } = convertMs(remainder);
-
-      day.textContent = addLeadingZero(days);
-      hour.textContent = addLeadingZero(hours);
-      minute.textContent = addLeadingZero(minutes);
-      second.textContent = addLeadingZero(seconds);
-      if (remainder < 1000) {
-        Notify.success('The timer has expired');
-        clearInterval(timerId);
-        inputData.disabled = false;
-      };
-    }, 1000);
-  }
+function startCount() {
+  inputData.disabled = true;
+  btnStart.disabled = true;
+  timerId = setInterval(() => {
+    const selectedData = new Date(inputData.value);
+    const remainder = selectedData - Date.now();
+    const { days, hours, minutes, seconds } = convertMs(remainder);
+    day.textContent = addLeadingZero(days);
+    hour.textContent = addLeadingZero(hours);
+    minute.textContent = addLeadingZero(minutes);
+    second.textContent = addLeadingZero(seconds);
+    if (remainder < 1000) {
+      Notify.success('The timer has expired');
+      clearInterval(timerId);
+      inputData.disabled = false;
+    };
+  }, 1000);
+}
 
 
 function addLeadingZero(value) {
